@@ -1,0 +1,104 @@
+[
+  {
+    "name": "Line 1 – Versova to Ghatkopar",
+    "code": "L1",
+    "start": "Versova",
+    "end": "Ghatkopar",
+    "stations": [
+      "Versova",
+      "D.N. Nagar",
+      "Azad Nagar",
+      "Andheri",
+      "Western Express Highway",
+      "Chakala (J.B. Nagar)",
+      "Airport Road",
+      "Marol Naka",
+      "Saki Naka",
+      "Asalpha",
+      "Jagruti Nagar",
+      "Ghatkopar"
+    ]
+  },
+  {
+    "name": "Line 2A – Dahisar East to Andheri West",
+    "code": "L2A",
+    "start": "Dahisar East",
+    "end": "Andheri West",
+    "stations": [
+      "Dahisar East",
+      "Anand Nagar",
+      "Kandarpada",
+      "Mandapeshwar",
+      "Eksar",
+      "Borivali West",
+      "Shimpoli",
+      "Kandivali West",
+      "Dahanukarwadi",
+      "Valnai–Meeth Chowky",
+      "Malad West",
+      "Lower Malad",
+      "Bangur Nagar",
+      "Goregaon West",
+      "Oshiwara",
+      "Lower Oshiwara",
+      "Andheri West"
+    ]
+  },
+  {
+    "name": "Line 7 – Dahisar East to Gundavali",
+    "code": "L7",
+    "start": "Dahisar East",
+    "end": "Gundavali (Andheri East)",
+    "stations": [
+      "Dahisar East",
+      "Ovaripada",
+      "Rashtriya Udyan",
+      "Devipada",
+      "Magathane",
+      "Poisar",
+      "Akurli Road",
+      "Kurar",
+      "Dindoshi",
+      "Aarey",
+      "Goregaon East",
+      "Jogeshwari East",
+      "Mogra",
+      "Gundavali (Andheri East)"
+    ]
+  },
+  {
+    "name": "Line 3 – Cuffe Parade to SEEPZ (Aqua)",
+    "code": "L3",
+    "start": "Cuffe Parade",
+    "end": "SEEPZ",
+    "stations": [
+      "Cuffe Parade",
+      "Vidhan Bhavan",
+      "Churchgate",
+      "CST",
+      "Mumbai Central",
+      "Worli",
+      "BKC",
+      "Marol Naka",
+      "SEEPZ"
+    ]
+  },
+  {
+    "name": "Line 4 – Wadala to Kasarvadavali",
+    "code": "L4",
+    "start": "Wadala",
+    "end": "Kasarvadavali",
+    "stations": [
+      "Wadala",
+      "Sion",
+      "Chembur",
+      "Ghatkopar",
+      "Vikhroli",
+      "Kanjurmarg",
+      "Bhandup",
+      "Mulund",
+      "Thane",
+      "Kasarvadavali"
+    ]
+  }
+]

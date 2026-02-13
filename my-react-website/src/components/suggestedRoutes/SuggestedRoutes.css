@@ -1,0 +1,59 @@
+.journey-details-card {
+  width: 100%;
+  margin-top: 0; /* Let the page-container gap handle the spacing */
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 1px solid #f0f0f0;
+  box-sizing: border-box; /* Prevents padding from breaking width */
+}
+
+.journey-main-info {
+  display: flex;
+  gap: 12px;
+}
+
+.vertical-line {
+  width: 5px;
+  border-radius: 10px;
+}
+
+.line-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.station-flow {
+  font-size: 18px;
+  margin: 8px 0;
+}
+
+.journey-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.final-price {
+  font-size: 20px;
+  font-weight: 800;
+  color: #10b981; /* Green Price */
+}
+
+.book-journey-btn {
+  width: 100%;
+  padding: 14px;
+  background: #2563eb;
+  color: white;
+  border-radius: 10px;
+  margin-top: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}

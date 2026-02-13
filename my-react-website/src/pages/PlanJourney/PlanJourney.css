@@ -1,0 +1,89 @@
+.card {
+  overflow: visible !important; /* Critical: Allows the dropdown to pop out of the card */
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.autocomplete {
+  position: relative; /* Anchor for the absolute-positioned list */
+  width: 100%;
+  margin-bottom: 20px;
+}
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px; /* 🟢 This creates the gap between the two cards */
+  padding: 20px;
+  width: 100%;
+  max-width: 450px; /* Keeps the cards from getting too wide */
+  margin: 0 auto;
+}
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Ensures it floats over buttons */
+  background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.suggestions li {
+  padding: 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.suggestions li:last-child {
+  border-bottom: none;
+}
+
+.suggestions li:hover {
+  background: #f1f5f9;
+}
+
+.line-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Route display styling */
+.route-container {
+  margin-top: 25px;
+}
+
+.metro-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.line-code {
+  padding: 5px 10px;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  min-width: 45px;
+  text-align: center;
+}
