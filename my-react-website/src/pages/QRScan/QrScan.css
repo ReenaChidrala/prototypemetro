@@ -1,65 +1,314 @@
-.qr-page {
+/* --- Main Container --- */
+.qr-scan-container {
   display: flex;
   flex-direction: column;
+  gap: 20px;
+  padding: 16px;
+
+  min-height: calc(100vh - 128px);
+  max-width: 500px;      /* Adjust this to match PlanJourney's width */
+  margin: 0 auto;       /* This centers the container on the screen */
+  width: 100%;
+
+  /* box-shadow: 0 0 20px rgba(0,0,0,0.03); */
+}
+
+/* --- Progress Card (Top Section) --- */
+.progress-card {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.progress-header h3 {
+  font-size: 18px;
+  color: #1e293b;
+  font-weight: 700;
+  margin: 0;
+}
+
+.step-count {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.progress-bar-bg {
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  margin: 16px 0 24px 0;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: #2563eb;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Journey Segment List --- */
+.segment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.seg-item {
+  display: flex;
   align-items: center;
   gap: 16px;
   padding: 10px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
 }
 
-.journey-summary {
+.seg-item.active {
+  background: #eff6ff;
+}
 
-  background: #eef2ff;
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  position: relative;
+}
+
+.seg-item.active .dot { 
+  background: #3b82f6; 
+  box-shadow: 0 0 0 4px #dbeafe; 
+}
+
+.seg-item.done .dot { 
+  background: #10b981; 
+}
+
+.seg-info strong {
+  display: block;
+  font-size: 14px;
+  color: #1e293b;
+}
+
+.seg-info p {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0;
+}
+
+.current-badge {
+  font-size: 11px;
+  background: #3b82f6;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* Update Button from Video */
+.update-btn {
+  width: 100%;
   padding: 12px;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow:  0px 10px 12px  rgb(196, 196, 221);
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.update-btn:active {
+  transform: scale(0.98);
+}
+
+/* --- QR Card Styling (Bottom Section) --- */
+.qr-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
+  transition: all 0.4s ease;
+}
+
+/* The "Locked" state from the video */
+.qr-card.locked {
+  filter: grayscale(1);
+  opacity: 0.7;
+}
+
+.line-indicator {
+  width: 100%;
+  padding: 14px;
+  color: white;
+  display: flex;
+  align-items: center;
   gap: 10px;
-
+  font-weight: 700;
+  font-size: 15px;
 }
 
-.qr-segment-card {
+.line-dot {
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+}
+
+.qr-details {
+  padding: 20px 20px 0 20px;
+}
+
+.station-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.fare-text {
+  font-size: 14px;
+  color: #64748b;
+  margin: 4px 0 0 0;
+}
+
+/* QR Section */
+.qr-section {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qr-wrapper {
+  width: 100%;
+  background: #f8fafc;
+  padding: 24px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px dashed #e2e8f0;
+}
+
+.qr-border {
+  background: white;
   padding: 12px;
-  border-radius: 8px;
-  background: #f9fafb;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin: 16px 0;
+}
+
+.qr-token-id {
+  font-family: monospace;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 8px;
+}
+
+/* Locked Overlay Styling */
+.qr-locked-overlay {
+  width: 100%;
+  padding: 40px 20px;
   text-align: center;
-  max-width: 460px;
+  background: #f8fafc;
+  border: 2px dashed #e2e8f0;
+  border-radius: 16px;
+  color: #94a3b8;
 }
 
-.qr-segment-card.active {
-  border: 2px solid #22c55e;
+.lock-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+  display: block;
 }
 
-.qr-segment-card.disabled {
-  opacity: 0.4;
+.qr-locked-overlay p {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.4;
 }
 
-.qr-placeholder {
-  height: 60px;
+/* Simulation Button */
+.simulate-scan-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  background: #1e293b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.simulate-scan-btn:hover {
+  background: #334155;
+}
+
+/* --- Misc --- */
+.loader {
+  text-align: center;
+  padding: 50px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.completed-msg {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 22px;
+  font-weight: 800;
+  color: #10b981;
+}
+.success-overlay {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  background: #e5e7eb;
-  border-radius: 6px;
+  height: 80vh;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
-.current-label {
-  background: #facc15;
-  color: #000;
-  font-size: 12px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-left: 8px;
+.success-content {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
-.jornytext{
-  font-size: 17px;
-  font-weight:600;
+
+.party-popper-icon {
+  font-size: 80px;
+  margin-bottom: 20px;
+  animation: bounce 1s infinite;
 }
-.totaljrtet{
-  font-weight: 600;
+
+.redirect-note {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #94a3b8;
+  font-style: italic;
 }
-.qrjrtext{
-  margin-bottom: 10px;
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }

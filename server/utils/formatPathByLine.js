@@ -18,19 +18,22 @@ async function formatPathByLine(path) {
   )?.line || map[path[0]][0].line;
 
   let segmentStart = path[0];
+  let currentSegmentStations = [path[0]]; // 🟢 Start tracking stations
 
   for (let i = 1; i < path.length; i++) {
     const options = map[path[i]];
     const sameLine = options.find(s => s.line === currentLine);
 
     if (!sameLine) {
+      // Line change detected: push existing segment
       segments.push({
         from: segmentStart,
         to: path[i - 1],
-        line: currentLine
+        line: currentLine,
+        stations: currentSegmentStations // 🟢 Now contains the array for .length
       });
 
-      // Switch logic: find the line that path[i-1] and path[i] share
+      // Switch logic
       const interchangeOptions = map[path[i - 1]];
       const nextOptions = map[path[i]];
       const matchingLine = interchangeOptions.find(opt => 
@@ -39,13 +42,18 @@ async function formatPathByLine(path) {
 
       currentLine = matchingLine ? matchingLine.line : options[0].line;
       segmentStart = path[i - 1]; 
+      currentSegmentStations = [path[i - 1], path[i]]; // 🟢 Restart with interchange station
+    } else {
+      currentSegmentStations.push(path[i]); // 🟢 Keep adding stations to current segment
     }
   }
 
+  // Push final segment
   segments.push({
     from: segmentStart,
     to: path[path.length - 1],
-    line: currentLine
+    line: currentLine,
+    stations: currentSegmentStations // 🟢 Final array
   });
 
   return segments;

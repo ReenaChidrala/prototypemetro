@@ -9,6 +9,7 @@
   const routeRoutes = require('./routes/routeRoutes');
   const journeyRoutes = require('./routes/journeyRoutes');
   const userRoutes = require('./routes/userRoutes');
+  const paymentRoutes = require('./routes/payment');
 
   const app = express();
 
@@ -20,7 +21,8 @@
   app.use('/api/metro', metroRoutes);
   app.use('/api/route', routeRoutes);
   app.use('/api/journey', journeyRoutes);
-  app.use('/api/users', userRoutes);
+  app.use('/api/auth', userRoutes);
+  app.use('/api/payment', paymentRoutes);
 
   // Root test
   app.get('/', (req, res) => {

@@ -1,63 +1,93 @@
-.ticket-page {
+.history-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: #f0f4f8;
   min-height: 100vh;
-  background: #f3f4f6;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px;
 }
 
-.ticket-title {
-  margin-bottom: 20px;
-}
-
-.ticket-card {
+.history-card-main {
   background: white;
-  width: 100%;
-  max-width: 420px;
+  padding: 24px;
   border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  width: 100%;
+  max-width: 500px;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid #edf2f7;
+  border-radius: 12px;
+  margin-top: 12px;
+}
+
+.history-details strong {
+  font-size: 1.1rem;
+  color: #2d3748;
+}
+
+.history-date {
+  font-size: 0.85rem;
+  color: #718096;
+  margin: 4px 0;
+}
+
+.status-badge-completed {
+  font-size: 0.8rem;
+  color: #38a169; /* Green color from your image */
+  font-weight: 500;
+}
+
+.history-fare {
+  font-weight: 600;
+  color: #4a5568;
+}
+
+/* Container for the card needs relative positioning */
+.history-item {
+  position: relative; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  margin-bottom: 15px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border: 1px solid #eee;
 }
 
-.ticket-route {
-  font-size: 18px;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.ticket-info {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-}
-
-.status.success {
-  color: green;
-  font-weight: bold;
-}
-
-.ticket-segment {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  margin: 8px 0;
-}
-
-.checked {
-  color: green;
-  font-weight: bold;
-}
-
-.ticket-actions {
-  margin-top: 20px;
-}
-
-.ticket-actions button {
-  padding: 10px 20px;
-  border-radius: 8px;
+/* Small Delete Button Style */
+.history-delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: transparent;
   border: none;
-  background: #2563eb;
-  color: white;
+  color: #ff4d4d; /* Red color */
+  font-size: 22px;
+  font-weight: bold;
   cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.history-delete-btn:hover {
+  color: #cc0000;
+  transform: scale(1.2);
+  background: rgba(255, 77, 77, 0.1); /* Light red circle on hover */
+}
+
+/* Ensure text doesn't overlap with the X button */
+.history-details {
+  padding-right: 25px;
 }

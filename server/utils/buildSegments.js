@@ -13,58 +13,48 @@ async function buildSegments(path, journeyId) {
   });
 
   let order = 0;
-
-  // 🚪 ENTRY: Detect line by looking at where we are going (path[1])
   let currentLine = map[path[0]].find(s => 
     map[path[1]].some(next => next.line === s.line)
   )?.line || map[path[0]][0].line;
 
-  segments.push({
-    journeyId,
-    segmentOrder: order++,
-    fromStation: path[0],
-    toStation: path[1],
-    line: currentLine,
-    type: 'ENTRY',
-    token: genToken(),
-    scanned: false
-  });
+  let segmentStart = path[0];
 
-  // 🔁 INTERCHANGES
-  for (let i = 1; i < path.length - 1; i++) {
-    const stationOptions = map[path[i]];
-    const sameLine = stationOptions.find(s => s.line === currentLine);
+  for (let i = 1; i < path.length; i++) {
+    const options = map[path[i]];
+    const sameLine = options.find(s => s.line === currentLine);
 
     if (!sameLine) {
-      // ✅ Switch Logic: Pick the line that connects this station to the NEXT one
-      const nextOptions = map[path[i+1]];
-      const matchingLine = stationOptions.find(opt => 
-        nextOptions.some(next => next.line === opt.line)
-      );
-
-      currentLine = matchingLine ? matchingLine.line : stationOptions[0].line;
-
+      // 🟢 Push Segment (Interchange detected)
       segments.push({
         journeyId,
         segmentOrder: order++,
-        fromStation: path[i],
-        toStation: path[i+1],
+        fromStation: segmentStart, // ✅ Required by Schema
+        toStation: path[i - 1],    // ✅ Required by Schema
         line: currentLine,
-        type: 'INTERCHANGE',
+        type: order === 1 ? 'ENTRY' : 'INTERCHANGE', // ✅ Required by Schema
         token: genToken(),
         scanned: false
       });
+
+      const interchangeOptions = map[path[i - 1]];
+      const nextOptions = map[path[i]];
+      const matchingLine = interchangeOptions.find(opt => 
+        nextOptions.some(next => next.line === opt.line)
+      );
+
+      currentLine = matchingLine ? matchingLine.line : options[0].line;
+      segmentStart = path[i - 1]; 
     }
   }
 
-  // 🚪 EXIT
+  // 🟢 Push Final Segment
   segments.push({
     journeyId,
     segmentOrder: order++,
-    fromStation: path[path.length - 2],
+    fromStation: segmentStart,
     toStation: path[path.length - 1],
     line: currentLine,
-    type: 'EXIT',
+    type: order === 1 ? 'ENTRY' : 'EXIT', // ✅ Required by Schema
     token: genToken(),
     scanned: false
   });

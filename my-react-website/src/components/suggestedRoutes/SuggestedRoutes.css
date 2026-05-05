@@ -1,59 +1,140 @@
+/* SuggestedRoutes.css */
+
 .journey-details-card {
   width: 100%;
-  margin-top: 0; /* Let the page-container gap handle the spacing */
   background: #ffffff;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
   border: 1px solid #f0f0f0;
-  box-sizing: border-box; /* Prevents padding from breaking width */
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+.suggested-results-wrapper{
+  width: 100%;
 }
 
-.journey-main-info {
+/* Container for each part of the journey (L1, L3, etc.) */
+.journey-segment {
   display: flex;
-  gap: 12px;
+  gap: 16px;
+  margin-bottom: 24px; /* Space between interchanges */
+  position: relative;
 }
 
+/* The vertical metro line indicator */
 .vertical-line {
   width: 5px;
   border-radius: 10px;
+  /* Ensures the line looks continuous even with long station names */
+  min-height: 65px; 
+  flex-shrink: 0;
 }
 
+.path-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* "L1 Line" or "Blue Line" label */
 .line-label {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   color: #6b7280;
+  text-transform: uppercase;
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-bottom: 4px;
 }
 
+/* Small colored circle next to line name */
+.dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Source -> Destination text */
 .station-flow {
-  font-size: 18px;
-  margin: 8px 0;
+  font-size: 17px;
+  font-weight: 700;
+  margin: 4px 0;
+  color: #111827;
 }
 
+.arrow {
+  color: #9ca3af;
+  padding: 0 6px;
+}
+
+/* Subtext under station names */
+.fare-text {
+  font-size: 14px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid #f3f4f6;
+  margin: 20px 0;
+}
+
+/* Footer with time and total price */
 .journey-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 15px;
+  padding-bottom: 5px;
+}
+
+.est-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b7280;
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .final-price {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 800;
-  color: #10b981; /* Green Price */
+  color: #10b981; /* Success Green */
 }
 
-.book-journey-btn {
+/* Floating "Book" button outside the white card */
+.book-journey-btn-floating {
   width: 100%;
-  padding: 14px;
-  background: #2563eb;
+  padding: 18px;
+  background: #2563eb; /* Blue button */
   color: white;
-  border-radius: 10px;
-  margin-top: 15px;
-  font-weight: 600;
-  cursor: pointer;
   border: none;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+  transition: transform 0.1s ease;
+}
+
+.book-journey-btn-floating:active {
+  transform: scale(0.98);
+}
+.fare-text {
+  font-size: 14px;
+  color: #9ca3af; /* Muted gray color */
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* Ensure the station flow text has enough space from the fare below it */
+.station-flow {
+  margin-bottom: 2px;
+}
+.sugeheader{
+  margin-bottom: 10px;
 }

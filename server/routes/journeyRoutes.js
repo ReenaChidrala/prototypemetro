@@ -19,6 +19,31 @@ router.get('/test', (req, res) => {
   res.send('Journey route working');
 });
 
+router.get('/history', async (req, res) => {
+  try {
+    // This finds journeys where status is 'COMPLETED'
+    const history = await Journey.find({ status: 'COMPLETED' })
+      .sort({ createdAt: -1 }); // Newest first
+
+    res.json(history);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch history' });
+  }
+});
+
+// DELETE a specific journey
+router.delete('/:id', async (req, res) => {
+  try {
+    const deletedJourney = await Journey.findByIdAndDelete(req.params.id);
+    if (!deletedJourney) {
+      return res.status(404).json({ error: 'Journey not found' });
+    }
+    res.json({ message: 'Journey deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete journey' });
+  }
+});
+
 router.post('/book', async (req, res) => {
   try {
     const { from, to } = req.body;
@@ -27,47 +52,57 @@ router.post('/book', async (req, res) => {
       return res.status(400).json({ error: 'Source and Destination are required' });
     }
 
-    // 1️⃣ Build graph (Already has await, good)
     const graph = await buildGraph();
-
-    // 2️⃣ Find full path - ADDED await here
-    // If your dijkstra.js is async, it MUST have await
     const path = await dijkstra(from, to); 
 
     if (!path || path.length === 0) {
       return res.status(404).json({ error: 'No route found' });
     }
 
-    // 3️⃣ Save journey - path is now a real array of strings
+    // 1️⃣ Get basic display segments (splits by line)
+    const displaySegments = await formatPathByLine(path);
+
+    // 2️⃣ 🟢 CALCULATE FARE PER SEGMENT
+    // We map through each segment and add a 'segmentFare' property
+    const segmentsWithFares = displaySegments.map(segment => {
+      // stationCount is the number of hops in this specific line segment
+      const stationCount = segment.stations.length - 1; 
+      return {
+        ...segment,
+        segmentFare: stationCount * 5 // Example: ₹5 per station
+      };
+    });
+
+    // 3️⃣ Calculate totals for the summary section
+    const totalStations = path.length - 1;
+    const totalFare = totalStations * 5; 
+    const totalTime = totalStations * 2; 
+
     const journey = await Journey.create({
-      from,
-      to,
-      path,
+      from, to, path,
+      totalFare,
+      totalTime,
       status: 'BOOKED'
     });
 
-    // 4️⃣ Build QR segments - ADDED await here
     const qrSegments = await buildSegments(path, journey._id);
     if (qrSegments && qrSegments.length > 0) {
         await QRSegment.insertMany(qrSegments);
     }
 
-    // 5️⃣ Format for Frontend - ADDED await here
-    const displaySegments = await formatPathByLine(path);
-
-    // 6️⃣ Send CLEAN data to frontend
+    // 4️⃣ Send CLEAN data including individual segment fares
     res.json({
       journeyId: journey._id,
-      route: displaySegments
+      route: segmentsWithFares, // Frontend will loop this to show each fare
+      totalFare,
+      totalTime
     });
 
   } catch (err) {
-    // Better error logging to see exactly where it fails
     console.error('Booking failed:', err.message);
     res.status(500).json({ error: 'Booking failed', details: err.message });
   }
 });
-
 
 
 /* =========================
@@ -148,5 +183,9 @@ router.get('/:journeyId', async (req, res) => {
     segments
   });
 });
+
+
+
+
 
 module.exports = router;

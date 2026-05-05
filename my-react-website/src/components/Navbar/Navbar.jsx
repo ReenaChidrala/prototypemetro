@@ -1,49 +1,30 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { Train, QrCode, ClipboardList, Map, CreditCard } from 'lucide-react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { Train, QrCode, ClipboardList, CreditCard, LogOut, User } from 'lucide-react';
 
-export function Navbar() {
+export function Navbar({ user, onLogout }) {
+  
+
   const navItems = [
-    { path: '/', name: 'Plan Journey', icon: Train },
-    { path: '/Payment', name: 'Payment', icon: CreditCard },
-    { path: '/QRScan', name: 'QR Scan', icon: QrCode },
-    { path: '/Summary', name: 'Summary', icon: ClipboardList },
-    { path: '/Tracking', name: 'Tracking', icon: Map },
+    { path: '/', name: 'Plan', icon: Train },
+    // { path: '/Payment', name: 'Payment', icon: CreditCard },
+    { path: '/QRScan', name: 'Scan', icon: QrCode },
+    { path: '/Summary', name: 'History', icon: ClipboardList },
   ];
+
+  // If user is not logged in, don't show any navbar (optional, based on your preference)
+  if (!user) return null;
 
   return (
     <>
-      {/* Top Navbar for Desktop */}
-      <nav className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50 h-16 px-4 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-2">
-          <div className="bg-blue-600 p-1.5 rounded-lg">
-            <Train className="text-white" size={20} />
-          </div>
-          <span className="text-xl font-bold text-gray-800">MetroGo</span>
-        </div>
+      {/* 🟢 TOP BAR: Shows User Name and Logout Button */}
+     
 
-        <div className="hidden md:flex space-x-1">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) =>
-                `flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  isActive
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : 'text-gray-600 hover:bg-gray-100'
-                }`
-              }
-            >
-              <item.icon size={18} />
-              {item.name}
-            </NavLink>
-          ))}
-        </div>
-      </nav>
-
-      {/* Bottom Navbar for Mobile */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 flex justify-around items-center h-16 pb-1">
+      {/* 🔵 BOTTOM NAVBAR: Your existing Mobile Nav */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 flex justify-around items-center h-16 pb-1" style={{backgroundColor:"white",boxShadow:" 0 4px 10px rgba(0,0,0,0.1)"}}>
+        {/* <div className="bg-blue-100 p-2 rounded-full">
+            <User size={20} className="text-blue-600" />
+          </div> */}
         {navItems.map((item) => (
           <NavLink
             key={item.path}
@@ -54,10 +35,17 @@ export function Navbar() {
               }`
             }
           >
-            <item.icon size={20} />
-            <span className="text-[10px] font-semibold">{item.name}</span>
+            <item.icon size={20} style={{color:"black"}} />
+            <span className="text-[10px] font-semibold" style={{color:"black"}}>{item.name}</span>
           </NavLink>
         ))}
+         <div 
+          onClick={onLogout}
+          className=""
+        >
+          
+          <span style={{color:"black", fontWeight:500 , fontFamily: "'Segoe UI', Arial, sans-serif"}}>Logout</span>
+        </div>
       </nav>
     </>
   );

@@ -1,78 +1,58 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import "./TicketSummary.css";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './TicketSummary.css';
 
-export default function TicketSummary() {
-  const { journeyId } = useParams();
-  const navigate = useNavigate();
-
-  const [segments, setSegments] = useState([]);
+export default function JourneyHistory() {
+  const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchSummary = async () => {
+    const fetchHistory = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:5000/api/journey/${journeyId}`
-        );
-
-        if (!res.ok) throw new Error("Journey not found");
-
-        const data = await res.json();
-        setSegments(data.segments || []);
+        const res = await axios.get('http://localhost:5000/api/journey/history');
+        // Double check it's an array before setting state
+        setHistory(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
-        console.error(err);
+        console.error("Error loading history:", err);
       } finally {
         setLoading(false);
       }
     };
+    fetchHistory();
+  }, []);
 
-    fetchSummary();
-
-    // ✅ journey complete → localStorage clear
-    return () => {
-      localStorage.removeItem("journeyId");
-    };
-  }, [journeyId]);
-
-  if (loading) return <h2>Loading ticket...</h2>;
-  if (segments.length === 0) return <h2>No ticket data found</h2>;
-
-  const start = segments[0];
-  const end = segments[segments.length - 1];
+  if (loading) return <div className="loader">Loading history...</div>;
 
   return (
-    <div className="ticket-page">
-      <h2 className="ticket-title">🎟 Journey Completed</h2>
-
-      <div className="ticket-card">
-        <p className="ticket-route">
-          <strong>{start.fromStation}</strong> →{" "}
-          <strong>{end.toStation}</strong>
-        </p>
-
-        <div className="ticket-info">
-          <p>Total Segments: {segments.length}</p>
-          <p>
-            Status: <span className="status success">COMPLETED</span>
-          </p>
+    <div className="history-container">
+      <div className="history-card-main">
+        <div className="history-header">
+          <h2>Journey History</h2>
+          <span className="count-badge">{history.length} Trips</span>
         </div>
 
-        <hr />
+        {history.length === 0 ? (
+          <p className="no-history">No completed journeys found.</p>
+        ) : (
+          <div className="history-list">
+            {history.map((j) => (
+              <div key={j._id} className="history-item">
+                <div className="history-details">
+                  <strong>{j.from} → {j.to}</strong>
+                  <p className="history-date">
+                    {new Date(j.createdAt).toLocaleString()}
+                  </p>
+                  <span className="status-badge-completed">Completed</span>
+                </div>
 
-        {segments.map((seg, i) => (
-          <div key={i} className="ticket-segment">
-            <span>{seg.line}</span>
-            <span>
-              {seg.fromStation} → {seg.toStation}
-            </span>
-            <span className="checked">✔</span>
+                <div className="history-fare">
+                  {/* Fixed the potential crash here */}
+                  {/* ₹{typeof j.totalFare === 'number' ? j.totalFare.toFixed(2) : "0.00"} */}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-
-      <div className="ticket-actions">
-        <button onClick={() => navigate("/")}>New Journey</button>
+        )}
       </div>
     </div>
   );

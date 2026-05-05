@@ -1,35 +1,63 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 import { Navbar } from './components/Navbar/Navbar';
+import Auth from './components/auth/Auth'; // 🟢 Import your new Auth component
 // Page Imports
 import PlanJourney from './pages/PlanJourney/PlanJourney';
 import Payment from './pages/Payment/Payment';
 import QRScan from './pages/QRScan/QRScan';
 import Summary from './pages/TicketSummary/TicketSummary';
-import Tracking from './pages/TicketTracking/TicketTracking';
 
 function App() {
+  // 1. Initialize user state from localStorage
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('user');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+
+  // 2. Function to handle logout
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setUser(null);
+  };
+
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50 flex flex-col">
-        <Navbar />
+      <div className="min-h-screen bg-gray-50 flex flex-col" >
+        {/* Pass user and logout to Navbar so it can show the name/logout button */}
+        <Navbar user={user} onLogout={handleLogout} />
 
-        {/* Main Content: 
-          pt-20 (Padding top) covers the 64px (h-16) top navbar.
-          pb-20 (Padding bottom) ensures content isn't hidden by the mobile bottom bar.
-        */}
-        <main className="flex-grow pt-20 pb-20 px-4 max-w-lg mx-auto w-full">
+        <main className="flex-grow pt-20 pb-20 px-4 max-w-lg mx-auto w-full" >
           <Routes>
-            {/* The Home path '/' now renders PlanJourney */}
-            <Route path="/" element={<PlanJourney />} />
+            {/* 3. If NOT logged in, show Auth. If logged in, redirect to Home */}
+            <Route 
+              path="/auth" 
+              element={!user ? <Auth onLogin={setUser} /> : <Navigate to="/" />} 
+            />
+  
+            {/* 4. PROTECTED ROUTES: Redirect to /auth if user is null */}
+            <Route 
+              path="/" 
+              element={user ? <PlanJourney /> : <Navigate to="/auth" />} 
+            />
             
-            <Route path="/Payment" element={<Payment />} />
-            <Route path="/QRScan" element={<QRScan />} />
-            <Route path="/Summary" element={<Summary />} />
-            <Route path="/Tracking" element={<Tracking />} />
+            <Route 
+              path="/Payment" 
+              element={user ? <Payment /> : <Navigate to="/auth" />} 
+            />
             
-            {/* Fallback route for 404s */}
+            <Route 
+              path="/QRScan" 
+              element={user ? <QRScan /> : <Navigate to="/auth" />} 
+            />
+            
+            <Route 
+              path="/Summary" 
+              element={user ? <Summary /> : <Navigate to="/auth" />} 
+            />
+
             <Route path="*" element={<div className="text-center mt-10">404 - Page Not Found</div>} />
           </Routes>
         </main>
