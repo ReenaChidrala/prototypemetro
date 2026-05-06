@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./planJourney.css";
+import "./PlanJourney.css";
 import SuggestedRoutes from "../../components/suggestedRoutes/SuggestedRoutes";
 import BookingConfirmation from "../../components/bookingConfirmation/BookingConfirmation";
 import { useNavigate } from "react-router-dom";
