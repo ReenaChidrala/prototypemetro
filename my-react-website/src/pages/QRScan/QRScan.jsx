@@ -28,7 +28,7 @@ export default function QRScan() {
     }
 
     try {
-      const res = await axios.get(`http://localhost:5000/api/journey/${idToFetch}`);
+      const res = await axios.get(`https://prototypemetro.onrender.com/api/journey/${idToFetch}`);
       setSegments(res.data.segments || []);
       
       // 🟢 Check if the final status is COMPLETED
@@ -72,7 +72,7 @@ export default function QRScan() {
     try {
       const activeIdx = segments.findIndex(seg => !seg.scanned);
       if (activeIdx !== -1) {
-        await axios.post('http://localhost:5000/api/journey/scan', { 
+        await axios.post('https://prototypemetro.onrender.com/api/journey/scan', { 
           token: segments[activeIdx].token 
         });
       }

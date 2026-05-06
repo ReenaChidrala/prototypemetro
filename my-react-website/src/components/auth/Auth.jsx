@@ -9,7 +9,7 @@ export default function Auth({ onLogin }) {
     e.preventDefault();
     const mode = isLogin ? 'login' : 'signup';
     try {
-      const res = await axios.post(`http://localhost:5000/api/auth/${mode}`, formData);
+      const res = await axios.post(`https://prototypemetro.onrender.com/api/auth/${mode}`, formData);
       if (isLogin) {
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('user', JSON.stringify(res.data.user));

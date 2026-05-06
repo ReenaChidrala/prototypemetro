@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./PlanJourney.css";
-import SuggestedRoutes from "../../components/suggestedRoutes/SuggestedRoutes";
-import BookingConfirmation from "../../components/bookingConfirmation/BookingConfirmation";
+import SuggestedRoutes from "../../SuggestedRoutes";
+import BookingConfirmation from "../../../bookingConfirmation/BookingConfirmation";
 import { useNavigate } from "react-router-dom";
 
 const LINE_COLORS = {
@@ -28,7 +28,7 @@ export default function PlanJourney() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/metro/stations")
+    axios.get("https://prototypemetro.onrender.com/api/metro/stations")
       .then(res => {
         setAllStations(res.data);
       })
@@ -60,7 +60,7 @@ export default function PlanJourney() {
   try {
     setIsPaying(true);
     // 2. Create the Order on the backend (Locked Amount)
-    const { data: orderData } = await axios.post("http://localhost:5000/api/payment/checkout", { 
+    const { data: orderData } = await axios.post("https://prototypemetro.onrender.com/api/payment/checkout", { 
       amount: journeyResult.totalFare 
     });
 
@@ -74,7 +74,7 @@ export default function PlanJourney() {
       handler: async function (response) {
         // 3. This runs only IF payment is successful
         try {
-          await axios.post("http://localhost:5000/api/auth/update-balance", {
+          await axios.post("https://prototypemetro.onrender.com/api/auth/update-balance", {
             userId: user.id,
             amount: -journeyResult.totalFare // Deducting the exact fare
           });
@@ -105,7 +105,7 @@ const planJourney = async () => {
   try {
     setLoading(true);
     setIsBooked(false);
-    const res = await axios.post("http://localhost:5000/api/journey/book", { from: source, to: destination });
+    const res = await axios.post("https://prototypemetro.onrender.com/api/journey/book", { from: source, to: destination });
     
     // 🔍 DEBUG LOGS
     console.log("Full API Response:", res.data);

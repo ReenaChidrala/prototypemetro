@@ -9,7 +9,7 @@ export default function JourneyHistory() {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/journey/history');
+        const res = await axios.get('https://prototypemetro.onrender.com/api/journey/history');
         // Double check it's an array before setting state
         setHistory(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
