@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./PlanJourney.css";
-import SuggestedRoutes from "../../SuggestedRoutes";
+import SuggestedRoutes from "../../components/SuggestedRoutes/SuggestedRoutes.jsx";
 import BookingConfirmation from "../../../bookingConfirmation/BookingConfirmation";
 import { useNavigate } from "react-router-dom";
 
