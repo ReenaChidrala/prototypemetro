@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./PlanJourney.css";
 import SuggestedRoutes from "../../components/SuggestedRoutes/SuggestedRoutes.jsx";
-import BookingConfirmation from "../../../bookingConfirmation/BookingConfirmation";
+import BookingConfirmation from "../../../BookingConfirmation/BookingConfirmation/BookingConfirmation.jsx";
 import { useNavigate } from "react-router-dom";
 
 const LINE_COLORS = {
