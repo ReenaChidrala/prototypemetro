@@ -14,7 +14,15 @@
   const app = express();
 
   // Middleware
-  app.use(cors());
+ // Replace app.use(cors()); with this:
+app.use(cors({
+  origin: [
+    "http://localhost:5173", 
+    "https://prototypemetro-bi54.vercel.app" // Your specific Vercel live link
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
   app.use(express.json());
 
   // Routes
